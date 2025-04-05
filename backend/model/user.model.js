@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 const userSchema = new mongoose.Schema({
-  fullname: {
+  fullName: {
     firstName: {
       type: String,
       required: true,
@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    monLength: [5, 'email must be atleast 5 chrecters long'],
+    minLength: [5, 'email must be atleast 5 chrecters long'],
   },
   password: {
     type: String,
@@ -32,17 +32,17 @@ const userSchema = new mongoose.Schema({
 })
 
 //use to generate token
-userSchema.methods.generateAuthToken = () => {
-  const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET)
+userSchema.methods.generateAuthToken = function () {
+  const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '24h' })
   return token
 }
 
 //use to comapre the password
-userSchema.methods.comparePassword = async (password) => {
+userSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password)
 }
 
-userSchema.static.hashPassword = async (password) => {
+userSchema.statics.hashPassword = async (password) => {
   return await bcrypt.hash(password, 10)
 }
 

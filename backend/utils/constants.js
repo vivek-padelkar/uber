@@ -1,0 +1,6 @@
+export const HTTP_ERROR_CODE = {
+  INTERNAL_SERVER: 500,
+  SUCESS: 200,
+  NOT_FOUND: 404,
+  AUTH_FAILD: 401,
+}
