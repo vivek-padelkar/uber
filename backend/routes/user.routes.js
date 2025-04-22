@@ -1,5 +1,5 @@
 import { Router } from 'express'
-const route = Router()
+const  route = Router()
 import { loginUser, registerUser, getUserProfile, logoutUser } from '../controller/user.controller.js'
 import { authUser } from '../middlewares/auth.middlewares.js'
 
