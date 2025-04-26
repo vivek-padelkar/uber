@@ -1,8 +1,13 @@
 import captainModel from '../model/captain.model.js'
-import bcrypt from 'bcrypt'
+
 export const registerCpatinModule = async (reqbody) => {
     try {
         const { fullName, email, vehicle } = reqbody
+        const isCaptainExsists = await captainModel.findOne({ email })
+        if (isCaptainExsists) {
+            throw Error("Captain already exsists")
+        }
+
         const firstName = fullName.firstName
         const lastName = fullName.lastName || ""
         const color = vehicle.color

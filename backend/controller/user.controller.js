@@ -13,6 +13,12 @@ export const registerUser = async (req, res) => {
       throw Error(validationMsg.error)
     }
     const { fullName, email, password } = req.body
+
+    const isEmailExsists = await userModel.findOne({ email })
+    if (isEmailExsists) {
+      throw Error("User already exsists")
+    }
+
     const hashpwd = await userModel.hashPassword(password)
     const user = await userModel.create({
       fullName: { firstName: fullName.firstName, lastName: fullName.lastName },
