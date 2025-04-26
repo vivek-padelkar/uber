@@ -15,7 +15,7 @@ export const validateCaptainRegister = joi.object({
   }).required()
 })
 
-export const validateLoginUser = joi.object({
+export const validateLoginCaptain = joi.object({
   email: joi.string().email(),
   password: joi.string().min(6),
 })

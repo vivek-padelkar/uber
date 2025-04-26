@@ -1,4 +1,5 @@
 import captainModel from '../model/captain.model.js'
+import { HTTP_ERROR_CODE } from '../utils/constants.js'
 
 export const registerCpatinModule = async (reqbody) => {
     try {
@@ -41,3 +42,29 @@ export const registerCpatinModule = async (reqbody) => {
     }
 }
 
+export const loginCaptainModule = async (reqbody) => {
+    try {
+        const { password, email } = reqbody
+        const captain = await captainModel.findOne({ email }).select('+password')
+        if (!captain) {
+            res.status(401).json({
+                status: HTTP_ERROR_CODE.AUTH_FAILD,
+                message: 'Invalid email/ password',
+            })
+        }
+        const isMatch = await captain.comparePassword(password)
+        if (!isMatch) {
+            return {
+                status: HTTP_ERROR_CODE.AUTH_FAILD,
+                message: 'Invalid email/ password',
+            }
+        }
+        const token = captain.generateAuthToken()
+        return {
+            token,
+            captain
+        }
+    } catch (error) {
+        throw error
+    }
+}
