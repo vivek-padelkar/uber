@@ -4,6 +4,7 @@ import {
   validateCaptainRegister,
   validateLoginCaptain,
 } from '../validation/captain.validator.js'
+import blackListedTokenModel from '../model/blacklistToken.model.js'
 
 export const registerCaptain = async (req, res) => {
   try {
@@ -37,13 +38,13 @@ export const loginCaptain = async (req, res) => {
   }
 }
 
-// export const getUserProfile = async (req, res) => {
-//   res.json(req.user)
-// }
+export const getCaptainProfile = async (req, res) => {
+  res.json(req.captain)
+}
 
-// export const logoutUser = async (req, res) => {
-//   res.clearCookie('token')
-//   const token = req?.cookies?.token || req.headers?.authorization?.split(' ')[1];
-//   await blackListedTokenModel.create({ token })
-//   res.json({ messgae: 'Logout sucessfully!' })
-// }
+export const logoutCaptain = async (req, res) => {
+  res.clearCookie('token')
+  const token = req?.cookies?.token || req.headers?.authorization?.split(' ')[1];
+  await blackListedTokenModel.create({ token })
+  res.json({ messgae: 'Logout sucessfully!' })
+}
